@@ -4,6 +4,7 @@ from argparse import ArgumentParser
 from pathlib import Path
 
 from contacts_parser import conf
+from contacts_parser import processor
 
 # Création du parser et parsing des options.
 parser = ArgumentParser(prog="contact_parser",
@@ -33,17 +34,18 @@ if args.separator:
         validate_separator(args.separator)
         conf.CSV_SEPARATOR = args.separator
     except ValueError:
-        logging.error(f"Séparateur de fichier non pris en charge ({args.separator})")
+        logging.error("Séparateur de fichier non pris en charge (%s)", args.separator)
 
 try:
     validate_file_path(file_path)
 except ValueError:
-    logging.error(f"Impossible d'utiliser le chemin {file_path} (fichier innexistant ou sans extension .csv)")
+    logging.error("Impossible d'utiliser le chemin %s (fichier innexistant ou sans extension .csv)", file_path)
     sys.exit(1)
 
 conf.setup_paths(file_path)
 
-logging.info(f"Extraction des contacts de {conf.src_file_path}")
-logging.info(f"Écriture dans le répertoire {conf.destination_folder}")
-logging.info(f"Séparateur pour le csv source : {conf.CSV_SEPARATOR}")
+logging.info("Extraction des contacts de %s", conf.src_file_path)
+logging.info("Écriture dans le répertoire %s", conf.destination_folder)
+logging.info("Séparateur pour le csv source : %s", conf.CSV_SEPARATOR)
 
+processor.run()
