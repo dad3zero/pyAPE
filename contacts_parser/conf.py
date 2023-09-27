@@ -22,6 +22,8 @@ def setup_paths(dest_path: Path):
     global destination_folder
     src_file_path = Path(dest_path).resolve()
     destination_folder = src_file_path.parent / "dest"
+    if not destination_folder.exists():
+        destination_folder.mkdir()
 
 root_dir = Path(__file__).parent.parent
 
