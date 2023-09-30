@@ -18,3 +18,15 @@ les informations afin de créer des fiches contact.
 
 `contact_parser` permet de convertir les entrées d'un fichier CSV vers un fichier CSV de contacts à
 importer dans gmail.
+
+Pour l'utiliser, vous devez être dans le répertoire racine du projet et exécuter la commande :
+```shell
+python -m contact-parser /chemin/vers/fichier.csv
+```
+
+Ceci créera un répertoire `dest` dans le répertoire contenant le csv, celui-ci contiendra les fichiers par classe.
+
+Vous pouvez aussi obtenir l'aide par
+```shell
+python -m contact-parser -h
+```
