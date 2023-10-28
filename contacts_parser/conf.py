@@ -8,8 +8,15 @@ from pathlib import Path
 
 import logging
 
+root_dir = Path(__file__).parent.parent
+
 # Configuration de base du logger
-logging.basicConfig(level=logging.INFO)
+logging.basicConfig(level=logging.INFO,
+                    format="%(levelname)s - %(message)s",
+                    datefmt="%H:%M:%S",
+                    filename= root_dir / "file.log",
+                    )
+
 
 def setup_paths(dest_path: Path):
     """
@@ -25,7 +32,6 @@ def setup_paths(dest_path: Path):
     if not destination_folder.exists():
         destination_folder.mkdir()
 
-root_dir = Path(__file__).parent.parent
 
 # Variable qui référence le fichier source, elle sera modifiée à l'exécution
 src_file_path = None

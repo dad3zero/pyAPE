@@ -14,6 +14,7 @@ parser.add_argument("-s", "--separator",
                     help="Séparateur du fichier csv, virgule par défaut dans le fichier de conf",
                     action="store")
 
+
 def validate_file_path(path: Path):
     path = Path(path)
     supported_suffixes = [".csv"]
@@ -25,6 +26,7 @@ def validate_separator(separator : str):
     supported_separators = [",", ";"]
     if separator not in supported_separators:
         raise ValueError(f"Not supported separator: {separator}")
+
 
 args = parser.parse_args()
 
