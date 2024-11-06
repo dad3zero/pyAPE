@@ -10,6 +10,11 @@ pour l'adapter à vos besoins ou proposer une évolution.
 Les scripts proposés ici sont en Python. [Python](https://www.python.org/) doit donc être installé
 sur votre poste.
 
+Ce projet utilise des dépendances externes, pour les installer :
+```shell
+pip install -r requirements.txt
+```
+
 ## Scripts proposés dans ce projet
 ### Conversion de fiches contact
 Une des activités les plus chonophages est la saisie des coordonnées des parents. Si l'établissement
@@ -30,3 +35,7 @@ Vous pouvez aussi obtenir l'aide par
 ```shell
 python -m contact-parser -h
 ```
+
+## Dépendances
+Le projet utilise les dépendances suivantes :
+ * [email-validator](https://pypi.org/project/email-validator/) : permet de valider les emails.
