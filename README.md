@@ -36,6 +36,15 @@ Vous pouvez aussi obtenir l'aide par
 python -m contact-parser -h
 ```
 
+### Interface web
+Le répertoire `webapp` contient le code pour une interface web permettant d'explorer les données.
+
+Vous pouvez le lancer avec :
+```shell
+python -m streamlit run webapp/home.py
+```
+
 ## Dépendances
 Le projet utilise les dépendances suivantes :
  * [email-validator](https://pypi.org/project/email-validator/) : permet de valider les emails.
+ * [Streamlit](https://streamlit.io) : propose une interface web pour explorer les données.
