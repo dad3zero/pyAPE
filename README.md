@@ -1,10 +1,13 @@
 # pyAPE
 
-Des outils Open Source en Python pour les Associations de Parents d'Élèves.
+**pyAPE** est un ensemble d'outils en Python pour notre **Associations de Parents d'Élèves**. Le
+projet contient :
+ * Un script de conversion d'informations de contact
+ * Un outil web pour avoir une vue sur les classes et retrouver les informations de contact  
 
-Les outils proposés ici sont réalisés pour répondre avant tout au besoin de notre association. Je
-souhaite évidemment qu'ils profitent au plus grand nombre aussi n'hésitez pas à forker le projet
-pour l'adapter à vos besoins ou proposer une évolution.
+Les outils sont adaptés à nos besoins et donc au format de fichier qui nous est communiqué par
+l'établissement. Je souhaite évidemment qu'ils profitent au plus grand nombre aussi n'hésitez
+pas à forker le projet pour l'adapter à vos besoins ou proposer une évolution.
 
 ## Besoins techniques
 Les scripts proposés ici sont en Python. [Python](https://www.python.org/) doit donc être installé
@@ -29,9 +32,17 @@ Pour l'utiliser, vous devez être dans le répertoire racine du projet et exécu
 python -m contact-parser /chemin/vers/fichier.csv
 ```
 
-Ceci créera un répertoire `dest` dans le répertoire contenant le csv, celui-ci contiendra les fichiers par classe.
+Ceci créera un répertoire `dest` dans le répertoire contenant le csv, et y créera les fichiers à
+raison d'un fichier par classe.
 
-Vous pouvez aussi obtenir l'aide par
+Chaque fiche de contact contient le nom et prénom du parent ainsi que l'information "enfant".
+L'information de filiation est également ajoutée à la note de la fiche.
+
+Ce script ne gère pas encore les doublons à savoir que si il y a une fraterie dans l'établissement,
+la fiche parent sera créée pour chaque enfant. GMail vous proposera de fusionner par la suite les
+fiches.
+
+Vous pouvez obtenir l'aide par
 ```shell
 python -m contact-parser -h
 ```

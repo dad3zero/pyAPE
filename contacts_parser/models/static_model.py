@@ -13,7 +13,7 @@ class EmptyParentError(ValueError):
 
 
 class Parent:
-    def __init__(self, lastname, firstname, civility, mail, relationship):
+    def __init__(self, lastname, firstname, mail, relationship):
         """
         Permet la création d'un parent mais nécessite la présence des informations nom et prénom.
 
@@ -29,11 +29,11 @@ class Parent:
         """
 
         if not (lastname and firstname):
-            raise EmptyParentError(f"Empty data : {civility} {lastname} {firstname} {mail} {relationship}")
+            raise EmptyParentError(f"Empty data : {lastname} {firstname} {mail} {relationship}")
 
         self.lastname = lastname
         self.firstname = firstname
-        self.title = civility
+        #self.title = civility
         self.relationship = relationship.capitalize()
         self.spouse = ""
 
