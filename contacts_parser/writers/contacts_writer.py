@@ -18,7 +18,7 @@ class FileWriter:
         if family.school_class != self.level:
             raise ValueError(f"Wrong data for {self.level}")
 
-        with open(self.destination_path, "at") as level_file:
+        with open(self.destination_path, "at", encoding="utf-8") as level_file:
             for parent in family.parents:
                 if parent.has_mail:
                     level_file.write(
