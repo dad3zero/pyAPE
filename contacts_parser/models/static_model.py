@@ -4,7 +4,11 @@ plus facile à gérer. La classe Parent permet également de valider les informa
 """
 
 import logging
+from dataclasses import dataclass
+from typing import Sequence
+
 from email_validator import validate_email, EmailNotValidError
+
 
 class EmptyParentError(ValueError):
     """
@@ -12,8 +16,16 @@ class EmptyParentError(ValueError):
     """
 
 
+@dataclass
+class Kid:
+    last_name: str
+    first_name: str
+    school_class: str
+
+
 class Parent:
-    def __init__(self, lastname, firstname, mail, relationship):
+    def __init__(self, lastname: str, firstname: str, mail: str,
+                 relationship: str = None, civility: str = None):
         """
         Permet la création d'un parent mais nécessite la présence des informations nom et prénom.
 
@@ -33,7 +45,7 @@ class Parent:
 
         self.lastname = lastname
         self.firstname = firstname
-        #self.title = civility
+        self.civility = civility
         self.relationship = relationship.capitalize()
         self.spouse = ""
 
@@ -44,14 +56,12 @@ class Parent:
             logging.error("Email non valide %s pour %s %s", mail, firstname, lastname)
             self.mail = None
 
-
     def __eq__(self, other):
         if not isinstance(other, self.__class__):
             return False
 
         return ((self.lastname, self.firstname, self.mail)
                 == (other.lastname, other.firstname, other.mail))
-
 
     @property
     def name(self):
@@ -63,7 +73,7 @@ class Parent:
 
 
 class Family:
-    def __init__(self, kid, parent_1=None, parent_2=None):
+    def __init__(self, kid: Kid, parent_1: Sequence[str] = None, parent_2: Sequence[str] = None):
         """
         Représente la notion de famille pour la gestion de contacts.
 
@@ -73,9 +83,7 @@ class Family:
         :param parent_1: Est attendu le namedtuple Parent
         :param parent_2: Est attendu le namedtuple Parent
         """
-        self.kid_lastname = kid[0]
-        self.kid_firstname = kid[1]
-        self.school_class = kid[2]
+        self.kid = kid
 
         self.parents = []
 
@@ -89,6 +97,18 @@ class Family:
 
         if empty_data == 2:
             logging.warning(" ! no parent for %s, %s", self.kid_lastname, self.kid_firstname)
+
+    @property
+    def kid_lastname(self) -> str:
+        return self.kid.last_name
+
+    @property
+    def kid_firstname(self) -> str:
+        return self.kid.first_name
+
+    @property
+    def school_class(self) -> str:
+        return self.kid.school_class
 
     @property
     def kid_name(self):

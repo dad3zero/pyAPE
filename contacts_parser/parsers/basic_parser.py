@@ -5,8 +5,10 @@ import pandas as pd
 from contacts_parser import conf
 from contacts_parser.models.flow_models import Kid, Parent
 
+
 def load_dataframe(file_path: TextIO, encoding:str = "utf-8", sep=";") -> pd.DataFrame:
     return pd.read_csv(file_path, encoding=encoding, sep=sep)
+
 
 def parse(file:TextIO):
     """

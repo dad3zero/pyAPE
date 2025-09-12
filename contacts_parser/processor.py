@@ -10,7 +10,7 @@ def run() -> None:
     """
     for kid, first_parent, second_parent in parser.parse_csv(conf.src_file_path):
 
-        family = models.Family(kid, first_parent, second_parent)
+        family = models.Family(models.Kid(*kid), first_parent, second_parent)
 
         if any(parent.has_mail for parent in family.parents):
             contact_writer = writer.FileWriter(family.school_class)
