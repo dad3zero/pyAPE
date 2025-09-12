@@ -27,7 +27,18 @@ def parse(file:TextIO):
 
     for line in file:
         elements = line.rstrip().split(conf.CSV_SEPARATOR)
-        yield (Kid(elements[csv_data_location["kid_lastname"]], elements[csv_data_location["kid_firstname"]], elements[csv_data_location["school_class"]]),
-               Parent(elements[csv_data_location["p1_lastname"]], elements[csv_data_location["p1_firstname"]], elements[csv_data_location["p1_mail"]], ""),
-               Parent(elements[csv_data_location["p2_lastname"]], elements[csv_data_location["p2_firstname"]], elements[csv_data_location["p2_mail"]], ""))
+        yield (Kid(elements[csv_data_location["kid_lastname"]],
+                   elements[csv_data_location["kid_firstname"]],
+                   elements[csv_data_location["school_class"]],
+                   ),
+               Parent(elements[csv_data_location["p1_lastname"]],
+                      elements[csv_data_location["p1_firstname"]],
+                      elements[csv_data_location["p1_mail"]],
+                      "",
+                      ),
+               Parent(elements[csv_data_location["p2_lastname"]],
+                      elements[csv_data_location["p2_firstname"]],
+                      elements[csv_data_location["p2_mail"]],
+                      "",
+                      ))
 

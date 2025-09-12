@@ -18,4 +18,5 @@ from collections import namedtuple
 Kid = namedtuple('Kid', ['last_name', 'first_name', 'school_class'])
 Parent = namedtuple('Parent',
                     ['last_name', 'first_name', 'email', 'relationship', 'civility'],
-                    defaults=(None, None))
+                    defaults=("", ""),
+                    )
