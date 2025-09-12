@@ -1,3 +1,5 @@
 ipython>=8.29
 email_validator>=2.2,<2.3
 streamlit>=1.49
+flake8>=7.3
+pylint>=3.3
