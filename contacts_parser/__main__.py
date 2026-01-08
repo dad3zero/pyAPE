@@ -6,48 +6,85 @@ from pathlib import Path
 from contacts_parser import conf
 from contacts_parser import processor
 
-# Création du parser et parsing des options.
-parser = ArgumentParser(prog="contact_parser",
-                        description="Conversion de contacts vers un format CSV pour import dans les messageries (Actuellement limité à GMail)")
-parser.add_argument("file_path", help="Chemin vers le fichier csv")
-parser.add_argument("-s", "--separator",
-                    help="Séparateur du fichier csv, virgule par défaut dans le fichier de conf",
-                    action="store")
 
-
-def validate_file_path(path: Path):
+def validate_file_path(path: str | Path):
     path = Path(path)
     supported_suffixes = [".csv"]
     if not all((path.is_file(), path.suffix in supported_suffixes)):
         raise ValueError(f"Wrong file name: {path}")
 
 
-def validate_separator(separator : str):
+def validate_separator(separator: str):
     supported_separators = [",", ";"]
     if separator not in supported_separators:
         raise ValueError(f"Not supported separator: {separator}")
 
 
-args = parser.parse_args()
+def run_contacts_parser(file_path: str, separator: str | None = None):
+    """Run the contacts parser with the given file path and optional separator."""
+    file_path = Path(file_path)
 
-file_path = Path(args.file_path)
-if args.separator:
-    try:
-        validate_separator(args.separator)
-        conf.CSV_SEPARATOR = args.separator
-    except ValueError:
-        logging.error("Séparateur de fichier non pris en charge (%s)", args.separator)
+    if separator:
+        validate_separator(separator)
+        conf.CSV_SEPARATOR = separator
 
-try:
     validate_file_path(file_path)
-except ValueError:
-    logging.error("Impossible d'utiliser le chemin %s (fichier innexistant ou sans extension .csv)", file_path)
-    sys.exit(1)
 
-conf.setup_paths(file_path)
+    conf.setup_paths(file_path)
 
-logging.info("Extraction des contacts de %s", conf.src_file_path)
-logging.info("Écriture dans le répertoire %s", conf.destination_folder)
-logging.info("Séparateur pour le csv source : %s", conf.CSV_SEPARATOR)
+    logging.info("Extraction des contacts de %s", conf.src_file_path)
+    logging.info("Écriture dans le répertoire %s", conf.destination_folder)
+    logging.info("Séparateur pour le csv source : %s", conf.CSV_SEPARATOR)
 
-processor.run()
+    processor.run()
+
+
+def run_webapp():
+    """Launch the Streamlit webapp."""
+    import subprocess
+    webapp_path = Path(__file__).parent / "webapp" / "home.py"
+    subprocess.run([sys.executable, "-m", "streamlit", "run", str(webapp_path),
+                    "--browser.gatherUsageStats", "false",
+                    ])
+
+
+def main():
+    parser = ArgumentParser(
+        prog="pyape",
+        description="Outils pour les associations de parents d'élèves (APE)"
+    )
+
+    subparsers = parser.add_subparsers(dest="command", required=True)
+
+    # Subcommand: contacts
+    contacts_subparser = subparsers.add_parser(
+        "contacts",
+        help="Conversion de contacts vers un format CSV pour import dans les messageries (Google)"
+    )
+    contacts_subparser.add_argument("file_path", help="Chemin vers le fichier csv")
+    contacts_subparser.add_argument(
+        "-s", "--separator",
+        choices=[",", ";"],
+        help="Séparateur du fichier csv, virgule par défaut"
+    )
+
+    # Subcommand: webapp
+    subparsers.add_parser(
+        "webapp",
+        help="Lancer l'interface web Streamlit"
+    )
+
+    args = parser.parse_args()
+
+    if args.command == "contacts":
+        try:
+            run_contacts_parser(args.file_path, args.separator)
+        except ValueError as e:
+            logging.error(str(e))
+            sys.exit(1)
+    elif args.command == "webapp":
+        run_webapp()
+
+
+if __name__ == "__main__":
+    main()
