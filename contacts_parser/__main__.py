@@ -21,7 +21,16 @@ def validate_separator(separator: str):
 
 
 def run_contacts_parser(file_path: str, separator: str | None = None):
-    """Run the contacts parser with the given file path and optional separator."""
+    """Parse a CSV file containing student/parent data and export Gmail-compatible contacts.
+
+    Reads the input CSV file, validates parent email addresses, and generates
+    one contact file per school class in the destination folder.
+
+    :param file_path: Path to the source CSV file containing student/parent data.
+    :param separator: CSV field separator ("," or ";"). Defaults to the value in conf.
+    :raises ValueError: If the file does not exist, has an unsupported extension,
+        or if the separator is not supported.
+    """
     file_path = Path(file_path)
 
     if separator:
