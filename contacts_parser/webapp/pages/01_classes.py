@@ -7,10 +7,11 @@ st.set_page_config(
 )
 
 
+st.title("Information classe")
+
 if "parents_data" in st.session_state:
     grades = st.session_state['parents_data'].groupby('DIV.')
 
-    st.title("Information classe")
     grade_selected = st.selectbox("Classe : ", grades)
     if grade_selected:
         current_class = grades.get_group(grade_selected)

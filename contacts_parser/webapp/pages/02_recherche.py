@@ -22,7 +22,8 @@ if "parents_data" in st.session_state:
     st.title('Recherche par nom')
     lookup_name = st.text_input('Recherche Nom')
     if lookup_name:
-        info_from_name = parents_data.loc[(parents_data["NOM"].str.casefold() == lookup_name.casefold())]
+        info_from_name = parents_data.loc[
+            (parents_data["NOM"].str.casefold().str.contains(lookup_name.casefold()))]
         st.dataframe(info_from_name)
     else:
         st.write("Pas de sélection nom de recherche")

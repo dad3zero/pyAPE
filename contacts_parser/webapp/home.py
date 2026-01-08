@@ -11,7 +11,7 @@ st.set_page_config(
 parents_file = st.file_uploader("Chemin vers le fichier des élèves")
 
 if parents_file:
-    parents_data = pd.read_csv(parents_file, sep=";")
+    parents_data = pd.read_csv(parents_file, sep=",", encoding="utf-8")
 
     parents_data = parents_data[parents_data['DIV.'].notnull()].sort_values(by=['DIV.', 'NOM'])
     st.session_state['parents_data'] = parents_data
