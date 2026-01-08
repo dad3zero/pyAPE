@@ -1,0 +1,22 @@
+[project]
+name = "pyape"
+version = "0.1.0"
+description = "ensemble d'outils en Python pour notre Associations de Parents d'Élèves"
+readme = "README.md"
+license = "GPL-3.0-or-later"
+requires-python = ">=3.12"
+dependencies = [
+    "email-validator>=2.3.0",
+    "pandas>=2.3.3",
+    "streamlit>=1.49.0",
+]
+
+[project.scripts]
+pyape = "contacts_parser.__main__:main"
+
+[dependency-groups]
+dev = [
+    "flake8>=7.3.0",
+    "ipython>=9.9.0",
+    "pylint>=4.0.4",
+]
