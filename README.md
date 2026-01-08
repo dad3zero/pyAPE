@@ -19,8 +19,16 @@ pip install -r requirements.txt
 ```
 
 ## Scripts proposés dans ce projet
+### Gestion de contacts
+Le projet est né du besoin de gérer le contact des parents d'élèves. Le project principal offre 
+plusieurs fonctionalités à partir du même point d'entrée. L'aide globale peut être obtenue par :
+
+```shell
+python -m contact-parser -h
+```
+
 ### Conversion de fiches contact
-Une des activités les plus chonophages est la saisie des coordonnées des parents. Si l'établissement
+Une des activités les plus chronophages est la saisie des coordonnées des parents. Si l'établissement
 fournit les données de manière électronique, un script sera évidemment plus efficace pour convertir
 les informations afin de créer des fiches contact.
 
@@ -29,7 +37,7 @@ importer dans gmail.
 
 Pour l'utiliser, vous devez être dans le répertoire racine du projet et exécuter la commande :
 ```shell
-python -m contact-parser /chemin/vers/fichier.csv
+python -m contact-parser contacts /chemin/vers/fichier.csv
 ```
 
 Ceci créera un répertoire `dest` dans le répertoire contenant le csv, et y créera les fichiers à
@@ -44,18 +52,19 @@ fiches.
 
 Vous pouvez obtenir l'aide par
 ```shell
-python -m contact-parser -h
+python -m contact-parser contacts -h
 ```
 
 ### Interface web
-Le répertoire `webapp` contient le code pour une interface web permettant d'explorer les données.
+Le propose une interface web permettant d'explorer les données.
 
 Vous pouvez le lancer avec :
 ```shell
-python -m streamlit run webapp/home.py
+python -m contact-parser webapp
 ```
 
 ## Dépendances
 Le projet utilise les dépendances suivantes :
+ * [pandas](https://pandas.pydata.org) : utilisé pour lire le fichier source et traiter les données.
  * [email-validator](https://pypi.org/project/email-validator/) : permet de valider les emails.
  * [Streamlit](https://streamlit.io) : propose une interface web pour explorer les données.
