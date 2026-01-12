@@ -40,13 +40,14 @@ Pour l'utiliser, vous devez être dans le répertoire racine du projet et exécu
 python -m contact-parser contacts /chemin/vers/fichier.csv
 ```
 
-Ceci créera un répertoire `dest` dans le répertoire contenant le csv, et y créera les fichiers à
-raison d'un fichier par classe.
+Ceci créera un répertoire `dest` dans le répertoire contenant le csv (par exemple, 
+`/chemin/vers/dest/` si on prend l'exemple ci-dessus). Un fichier csv de contacts sera créé par 
+classe en reprendant le nom de la classe du fichier csv original.
 
 Chaque fiche de contact contient le nom et prénom du parent ainsi que l'information "enfant".
-L'information de filiation est également ajoutée à la note de la fiche.
+Une note reprenant nom et prénom de l'enfant ainsi que la classe sont également ajoutés.
 
-Ce script ne gère pas encore les doublons à savoir que si il y a une fraterie dans l'établissement,
+Ce script ne gère pas encore les doublons à savoir que s'il y a une fratrie dans l'établissement,
 la fiche parent sera créée pour chaque enfant. GMail vous proposera de fusionner par la suite les
 fiches.
 

@@ -1,14 +1,23 @@
 import logging
 from pathlib import Path
 
+import pandas as pd
+
 from contacts_parser import conf
 import contacts_parser.models.static_model as model
+
+def write(class_level: str, contacts_data: pd.DataFrame):
+    destination_path = conf.destination_folder / Path(class_level).with_suffix(".csv")
+
+    contacts_data.to_csv(destination_path, index=False)
+
 
 class FileWriter:
     def __init__(self, class_level: str):
 
         self.level = class_level
         self.destination_path = conf.destination_folder / Path(class_level).with_suffix(".csv")
+        #self.destination_path = conf.destination_folder / Path("2025").with_suffix(".csv")
 
         if not self.destination_path.exists():
             with open(self.destination_path, "wt") as level_file:

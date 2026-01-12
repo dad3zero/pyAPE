@@ -2,9 +2,10 @@ import logging
 import sys
 from argparse import ArgumentParser
 from pathlib import Path
+from typing import TextIO
 
 from contacts_parser import conf
-from contacts_parser import processor
+from contacts_parser import processorng as processor
 
 
 def validate_file_path(path: str | Path):
@@ -20,7 +21,7 @@ def validate_separator(separator: str):
         raise ValueError(f"Not supported separator: {separator}")
 
 
-def run_contacts_parser(file_path: str, separator: str | None = None):
+def run_contacts_parser(file_path: TextIO, separator: str | None = None):
     """Parse a CSV file containing student/parent data and export Gmail-compatible contacts.
 
     Reads the input CSV file, validates parent email addresses, and generates
@@ -46,6 +47,11 @@ def run_contacts_parser(file_path: str, separator: str | None = None):
     logging.info("Séparateur pour le csv source : %s", conf.CSV_SEPARATOR)
 
     processor.run()
+
+
+def describe_file_structure(file_path: TextIO, separator: str | None = None):
+    from contacts_parser.parsers import descriptor
+    descriptor.describe(file_path, separator)
 
 
 def run_webapp():
@@ -76,6 +82,7 @@ def main():
         choices=[",", ";"],
         help="Séparateur du fichier csv, virgule par défaut"
     )
+    contacts_subparser.add_argument("-d", "--describe", action="store_true", help="Décrit la structure du fichier.")
 
     # Subcommand: webapp
     subparsers.add_parser(
@@ -86,11 +93,14 @@ def main():
     args = parser.parse_args()
 
     if args.command == "contacts":
-        try:
-            run_contacts_parser(args.file_path, args.separator)
-        except ValueError as e:
-            logging.error(str(e))
-            sys.exit(1)
+        if args.describe:
+            describe_file_structure(args.file_path, args.separator)
+        else:
+            try:
+                run_contacts_parser(args.file_path, args.separator)
+            except ValueError as e:
+                logging.error(str(e))
+                sys.exit(1)
     elif args.command == "webapp":
         run_webapp()
 

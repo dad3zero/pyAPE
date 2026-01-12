@@ -47,7 +47,12 @@ destination_folder = None
 
 #CONTACT_PARSER_STRUCTURE = ('kid_lastname', 'kid_firstname', 'birth_date', 'school_class', 'p1_civility', 'p1_lastname', 'p1_firstname', 'p1_relathionship', 'p1_mail', '', 'p2_civility', 'p2_lastname', 'p2_firstname', 'p2_relathionship', 'p2_mail')
 #CONTACT_PARSER_STRUCTURE = ('school_class', 'kid_lastname', 'kid_firstname', 'p1_civility', 'p1_lastname', 'p1_firstname', '', '', '', 'p1_mail', 'p2_civility', 'p2_lastname', 'p2_firstname', '', '', '', 'p2_mail')
-CONTACT_PARSER_STRUCTURE = ('kid_lastname', 'kid_firstname', 'school_class', 'p1_lastname', 'p1_firstname', '', 'p1_mail', 'p2_lastname', 'p2_firstname', '', 'p2_mail')
+#CONTACT_PARSER_STRUCTURE = ('kid_lastname', 'kid_firstname', 'school_class', 'p1_lastname', 'p1_firstname', '', 'p1_mail', 'p2_lastname', 'p2_firstname', '', 'p2_mail')
+CONTACT_PARSER_STRUCTURE = ('kid_lastname', 'kid_firstname', 'school_class', 'p1_lastname', 'p1_firstname', 'p1_address', 'p1_mail', 'p2_lastname', 'p2_firstname', 'p2_address', 'p2_mail')
+
+PARENT1_COLUMNS = ['NOM', 'PRENOM', 'DIV.', 'NOM LEGAL', 'PRENOM LEGAL', 'ADRESSE LEGAL', 'COURRIEL LEGAL']
+PARENT2_COLUMNS = ['NOM', 'PRENOM', 'DIV.', 'NOM AUTRE LEGAL', 'PRENOM AUTRE LEGAL', 'ADRESSE AUTRE LEGAL', 'COURRIEL AUTRE LEGAL']
+EMAIL_COLUMNS = ['COURRIEL LEGAL', 'COURRIEL AUTRE LEGAL']
 
 
-CSV_SEPARATOR = ';'
+CSV_SEPARATOR = ','
