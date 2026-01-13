@@ -27,13 +27,14 @@ def extract_unusable_data(full_dataset: pd.DataFrame,
 
 
 def clean_dataset(full_dataset: pd.DataFrame,
-                  column_email_labels: tuple[str, str],
+                  column_email_labels: list[str],
                   ) -> None:
     """
-    Supprime les données sans emails pour les deux parents.
+    Supprime les lignes où toutes les colonnes spécifiées sont vides (NaN). Ces colonnes sont
+    attendues comme étant les adresses email.
 
     :param full_dataset: Les données à filtrer.
-    :param column_email_labels: Les noms de colonnes à prendre en compte (doit contenir 2 données).
+    :param column_email_labels: Les noms de colonnes à prendre en compte.
     """
     full_dataset.dropna(subset=list(column_email_labels), how="all", inplace=True)
 
