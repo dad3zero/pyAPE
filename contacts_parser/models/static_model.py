@@ -46,7 +46,7 @@ class Parent:
         self.lastname = lastname
         self.firstname = firstname
         self.civility = civility if civility is not None else ""
-        self.relationship = relationship.capitalize() if relationship is not None else ""
+        self.relationship = relationship.capitalize() if relationship else "Parent"
         self.spouse = ""
 
         try:
