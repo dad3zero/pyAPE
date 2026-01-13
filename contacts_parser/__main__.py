@@ -21,13 +21,10 @@ def validate_separator(separator: str):
         raise ValueError(f"Not supported separator: {separator}")
 
 
-def run_contacts_parser(file_path: TextIO, separator: str | None = None):
-    """Parse a CSV file containing student/parent data and export Gmail-compatible contacts.
+def setup_configuration(file_path: TextIO, separator: str | None = None):
+    """Validate and configure file path and separator.
 
-    Reads the input CSV file, validates parent email addresses, and generates
-    one contact file per school class in the destination folder.
-
-    :param file_path: Path to the source CSV file containing student/parent data.
+    :param file_path: Path to the source CSV file.
     :param separator: CSV field separator ("," or ";"). Defaults to the value in conf.
     :raises ValueError: If the file does not exist, has an unsupported extension,
         or if the separator is not supported.
@@ -39,8 +36,21 @@ def run_contacts_parser(file_path: TextIO, separator: str | None = None):
         conf.CSV_SEPARATOR = separator
 
     validate_file_path(file_path)
-
     conf.setup_paths(file_path)
+
+
+def run_contacts_parser(file_path: TextIO, separator: str | None = None):
+    """Parse a CSV file containing student/parent data and export Gmail-compatible contacts.
+
+    Reads the input CSV file, validates parent email addresses, and generates
+    one contact file per school class in the destination folder.
+
+    :param file_path: Path to the source CSV file containing student/parent data.
+    :param separator: CSV field separator ("," or ";"). Defaults to the value in conf.
+    :raises ValueError: If the file does not exist, has an unsupported extension,
+        or if the separator is not supported.
+    """
+    setup_configuration(file_path, separator)
 
     logging.info("Extraction des contacts de %s", conf.src_file_path)
     logging.info("Écriture dans le répertoire %s", conf.destination_folder)
@@ -54,13 +64,20 @@ def describe_file_structure(file_path: TextIO, separator: str | None = None):
     descriptor.describe(file_path, separator)
 
 
-def run_webapp():
+def run_webapp(file_path: TextIO, separator: str | None = None):
     """Launch the Streamlit webapp."""
+    setup_configuration(file_path, separator)
+
     import subprocess
     webapp_path = Path(__file__).parent / "webapp" / "home.py"
-    subprocess.run([sys.executable, "-m", "streamlit", "run", str(webapp_path),
-                    "--browser.gatherUsageStats", "false",
-                    ])
+
+    cmd = [sys.executable, "-m", "streamlit", "run", str(webapp_path),
+           "--browser.gatherUsageStats", "false",
+           "--", str(conf.src_file_path)]
+    if separator:
+        cmd.append(separator)
+
+    subprocess.run(cmd)
 
 
 def main():
@@ -85,9 +102,18 @@ def main():
     contacts_subparser.add_argument("-d", "--describe", action="store_true", help="Décrit la structure du fichier.")
 
     # Subcommand: webapp
-    subparsers.add_parser(
+    webapp_subparser = subparsers.add_parser(
         "webapp",
         help="Lancer l'interface web Streamlit"
+    )
+    webapp_subparser.add_argument(
+        "-f", "--file_path",
+        help="Chemin vers le fichier csv source"
+    )
+    webapp_subparser.add_argument(
+        "-s", "--separator",
+        choices=[",", ";"],
+        help="Séparateur du fichier csv, virgule par défaut"
     )
 
     args = parser.parse_args()
@@ -102,7 +128,7 @@ def main():
                 logging.error(str(e))
                 sys.exit(1)
     elif args.command == "webapp":
-        run_webapp()
+        run_webapp(args.file_path, args.separator)
 
 
 if __name__ == "__main__":

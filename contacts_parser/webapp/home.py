@@ -1,3 +1,5 @@
+import sys
+
 import pandas as pd
 
 import streamlit as st
@@ -11,15 +13,24 @@ st.set_page_config(
     layout="wide",
 )
 
-parents_file = st.file_uploader("Chemin vers le fichier des élèves")
+# Arguments passed from CLI via sys.argv
+file_path = sys.argv[1] if len(sys.argv) > 1 else None
+separator = sys.argv[2] if len(sys.argv) > 2 else conf.CSV_SEPARATOR
 
-if parents_file:
-    parents_data = pt.load_dataframe(parents_file, sep=conf.CSV_SEPARATOR)
+# Load data from CLI argument or file uploader
+if file_path:
+    parents_data = pt.load_dataframe(file_path, sep=separator)
+else:
+    parents_file = st.file_uploader("Chemin vers le fichier des élèves")
+    if parents_file:
+        parents_data = pt.load_dataframe(parents_file, sep=separator)
+    else:
+        parents_data = None
+        st.write("En attente du chargement de fichier.")
 
+if parents_data is not None:
     parents_data = parents_data[parents_data['DIV.'].notnull()].sort_values(by=['DIV.', 'NOM'])
     st.session_state['parents_data'] = parents_data
-
-    # parents_data.info()
 
     per_class = parents_data['DIV.'].value_counts().sort_index()
 
@@ -41,6 +52,3 @@ if parents_file:
     parent_info_2.metric(label="Absent Second parent", value=no_parent2)
     parent_info_3.metric(label="Sans information", value=no_value)
     no_parent_2.metric(label="Pas Parent 2", value=no_strict_parent2)
-
-else:
-    st.write("En attente du chargement de fichier.")
