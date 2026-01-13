@@ -3,10 +3,11 @@
 **pyAPE** est un ensemble d'outils en Python pour notre **Associations de Parents d'Élèves**. Le
 projet contient :
  * Un script de conversion d'informations de contact
- * Un outil web pour avoir une vue sur les classes et retrouver les informations de contact  
+ * Un outil web pour avoir une vue sur des classes et retrouver les informations de contact  
 
 Les outils sont adaptés à nos besoins et donc au format de fichier qui nous est communiqué par
-l'établissement. Je souhaite évidemment qu'ils profitent au plus grand nombre aussi n'hésitez
+l'établissement. Il s'agit d'un export Pronote dont il devrait s'adapter à beaucoup 
+d'établissements. Je souhaite évidemment qu'ils profitent au plus grand nombre aussi n'hésitez
 pas à forker le projet pour l'adapter à vos besoins ou proposer une évolution.
 
 ## Besoins techniques
@@ -24,7 +25,7 @@ Le projet est né du besoin de gérer le contact des parents d'élèves. Le proj
 plusieurs fonctionalités à partir du même point d'entrée. L'aide globale peut être obtenue par :
 
 ```shell
-python -m contact-parser -h
+python -m contacts_parser -h
 ```
 
 ### Conversion de fiches contact
@@ -37,7 +38,7 @@ importer dans gmail.
 
 Pour l'utiliser, vous devez être dans le répertoire racine du projet et exécuter la commande :
 ```shell
-python -m contact-parser contacts /chemin/vers/fichier.csv
+python -m contacts_parser contacts /chemin/vers/fichier.csv
 ```
 
 Ceci créera un répertoire `dest` dans le répertoire contenant le csv (par exemple, 
@@ -53,15 +54,23 @@ fiches.
 
 Vous pouvez obtenir l'aide par
 ```shell
-python -m contact-parser contacts -h
+python -m contacts_parser contacts -h
 ```
 
+Si vous souhaitez adapter le fichier csv de sortie, ça se passe dans 
+`contacts_parser/writers/contacts_writer.py`.
+
 ### Interface web
-Le propose une interface web permettant d'explorer les données.
+Le projet propose une interface web permettant d'explorer les données.
 
 Vous pouvez le lancer avec :
 ```shell
-python -m contact-parser webapp
+python -m contacts_parser webapp
+```
+
+Une aide est disponible avec
+```shell
+python -m contacts_parser webapp -h
 ```
 
 ## Dépendances

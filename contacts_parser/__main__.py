@@ -86,34 +86,34 @@ def main():
         description="Outils pour les associations de parents d'élèves (APE)"
     )
 
+    # Parent parser with shared arguments
+    common_parser = ArgumentParser(add_help=False)
+    common_parser.add_argument(
+        "-s", "--separator",
+        choices=[",", ";"],
+        help="Séparateur du fichier csv, virgule par défaut"
+    )
+
     subparsers = parser.add_subparsers(dest="command", required=True)
 
     # Subcommand: contacts
     contacts_subparser = subparsers.add_parser(
         "contacts",
+        parents=[common_parser],
         help="Conversion de contacts vers un format CSV pour import dans les messageries (Google)"
     )
     contacts_subparser.add_argument("file_path", help="Chemin vers le fichier csv")
-    contacts_subparser.add_argument(
-        "-s", "--separator",
-        choices=[",", ";"],
-        help="Séparateur du fichier csv, virgule par défaut"
-    )
     contacts_subparser.add_argument("-d", "--describe", action="store_true", help="Décrit la structure du fichier.")
 
     # Subcommand: webapp
     webapp_subparser = subparsers.add_parser(
         "webapp",
+        parents=[common_parser],
         help="Lancer l'interface web Streamlit"
     )
     webapp_subparser.add_argument(
         "-f", "--file_path",
         help="Chemin vers le fichier csv source"
-    )
-    webapp_subparser.add_argument(
-        "-s", "--separator",
-        choices=[",", ";"],
-        help="Séparateur du fichier csv, virgule par défaut"
     )
 
     args = parser.parse_args()
