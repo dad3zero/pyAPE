@@ -2,6 +2,9 @@ import pandas as pd
 
 import streamlit as st
 
+from contacts_parser import conf
+from contacts_parser.parsers import pandas_toolbox as pt
+
 st.set_page_config(
     page_title="Statut des classes",
     page_icon="🏫",
@@ -11,7 +14,7 @@ st.set_page_config(
 parents_file = st.file_uploader("Chemin vers le fichier des élèves")
 
 if parents_file:
-    parents_data = pd.read_csv(parents_file, sep=",", encoding="utf-8")
+    parents_data = pt.load_dataframe(parents_file, sep=conf.CSV_SEPARATOR)
 
     parents_data = parents_data[parents_data['DIV.'].notnull()].sort_values(by=['DIV.', 'NOM'])
     st.session_state['parents_data'] = parents_data
