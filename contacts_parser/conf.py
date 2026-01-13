@@ -39,19 +39,15 @@ src_file_path = None
 # sa valeur sera "[src_file_path]/dest"
 destination_folder = None
 
-# La ligne suivante décrit la structure du fichier de données. Les différentes chaines sont
-# utilisées dans le programme. Pour adapter le script à vos besoins ou à toute évolution de ce
-# fichier, créez un n-uplet contenant autant d'éléments que de colonnes en utilisant les chaînes
-# comme vu ci-dessous. Si le fichier contient des colonnes non-utilisées par ce script, utilisez une
-# chaîne vide pour cette colonne.
-
-#CONTACT_PARSER_STRUCTURE = ('kid_lastname', 'kid_firstname', 'birth_date', 'school_class', 'p1_civility', 'p1_lastname', 'p1_firstname', 'p1_relathionship', 'p1_mail', '', 'p2_civility', 'p2_lastname', 'p2_firstname', 'p2_relathionship', 'p2_mail')
-#CONTACT_PARSER_STRUCTURE = ('school_class', 'kid_lastname', 'kid_firstname', 'p1_civility', 'p1_lastname', 'p1_firstname', '', '', '', 'p1_mail', 'p2_civility', 'p2_lastname', 'p2_firstname', '', '', '', 'p2_mail')
-#CONTACT_PARSER_STRUCTURE = ('kid_lastname', 'kid_firstname', 'school_class', 'p1_lastname', 'p1_firstname', '', 'p1_mail', 'p2_lastname', 'p2_firstname', '', 'p2_mail')
-CONTACT_PARSER_STRUCTURE = ('kid_lastname', 'kid_firstname', 'school_class', 'p1_lastname', 'p1_firstname', 'p1_address', 'p1_mail', 'p2_lastname', 'p2_firstname', 'p2_address', 'p2_mail')
+# Les lignes suivantes décrivent les colonnes à utiliser lors de l'extraction des éléments d'un
+# parent. Ces lignes seront celles retenues par le script de transformation.
 
 PARENT1_COLUMNS = ['NOM', 'PRENOM', 'DIV.', 'NOM LEGAL', 'PRENOM LEGAL', 'ADRESSE LEGAL', 'COURRIEL LEGAL']
 PARENT2_COLUMNS = ['NOM', 'PRENOM', 'DIV.', 'NOM AUTRE LEGAL', 'PRENOM AUTRE LEGAL', 'ADRESSE AUTRE LEGAL', 'COURRIEL AUTRE LEGAL']
+
+# Cette variable décrit les colonnes contenant un mail. Elle est utilisée pour filtrer les entrées
+# sans contact. Elle doit contenir 2 noms, le premier sera utilisé pour le dernier filtre.
+
 EMAIL_COLUMNS = ['COURRIEL LEGAL', 'COURRIEL AUTRE LEGAL']
 
 

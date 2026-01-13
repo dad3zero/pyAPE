@@ -5,7 +5,7 @@ from pathlib import Path
 from typing import TextIO
 
 from contacts_parser import conf
-from contacts_parser import processorng as processor
+from contacts_parser import processor as processor
 
 
 def validate_file_path(path: str | Path):
