@@ -86,18 +86,19 @@ def describe_file_structure(file_path: TextIO, separator: str | None = None):
     descriptor.describe(file_path, separator)
 
 
-def run_webapp(file_path: TextIO, separator: str | None = None):
+def run_webapp(file_path: TextIO | None = None, separator: str | None = None):
     """Launch the Streamlit webapp."""
-    setup_configuration(file_path, separator)
-
     import subprocess
     webapp_path = Path(__file__).parent / "webapp" / "home.py"
 
     cmd = [sys.executable, "-m", "streamlit", "run", str(webapp_path),
-           "--browser.gatherUsageStats", "false",
-           "--", str(conf.src_file_path)]
-    if separator:
-        cmd.append(separator)
+           "--browser.gatherUsageStats", "false"]
+
+    if file_path:
+        setup_configuration(file_path, separator)
+        cmd.extend(["--", str(conf.src_file_path)])
+        if separator:
+            cmd.append(separator)
 
     subprocess.run(cmd)
 
