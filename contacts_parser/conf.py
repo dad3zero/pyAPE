@@ -5,17 +5,35 @@ Vous pouvez modifier ce fichier afin d'adapter les paramètres à votre cas en p
 """
 
 from pathlib import Path
-
 import logging
+from logging.handlers import RotatingFileHandler
+import os
 
 root_dir = Path(__file__).parent.parent
+log_file = root_dir / "file.log"
 
-# Configuration de base du logger
-logging.basicConfig(level=logging.INFO,
-                    format="%(levelname)s - %(message)s",
-                    datefmt="%H:%M:%S",
-                    filename= root_dir / "file.log",
-                    )
+# Create log file with restricted permissions (owner read/write only)
+if not log_file.exists():
+    log_file.touch(mode=0o600)
+else:
+    os.chmod(log_file, 0o600)
+
+# Configuration du logger avec rotation
+handler = RotatingFileHandler(
+    log_file,
+    maxBytes=1_000_000,  # 1 MB max
+    backupCount=3,       # Keep 3 backup files
+    encoding='utf-8'
+)
+handler.setFormatter(logging.Formatter(
+    "%(asctime)s - %(levelname)s - %(message)s",
+    datefmt="%Y-%m-%d %H:%M:%S"
+))
+
+logging.basicConfig(
+    level=logging.INFO,
+    handlers=[handler]
+)
 
 
 def setup_paths(dest_path: Path):

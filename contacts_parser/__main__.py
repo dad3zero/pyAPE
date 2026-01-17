@@ -8,11 +8,33 @@ from contacts_parser import conf
 from contacts_parser import processor as processor
 
 
-def validate_file_path(path: str | Path):
-    path = Path(path)
+def validate_file_path(path: str | Path, allowed_base_dir: Path | None = None) -> Path:
+    """Validate file path to prevent path traversal attacks.
+
+    :param path: Path to the CSV file to validate.
+    :param allowed_base_dir: Optional base directory to restrict access to.
+    :return: Resolved absolute path.
+    :raises ValueError: If path is invalid, doesn't exist, or is outside allowed directory.
+    """
+    path = Path(path).resolve()  # Resolve to absolute path, eliminating ../ etc.
+
     supported_suffixes = [".csv"]
-    if not all((path.is_file(), path.suffix in supported_suffixes)):
-        raise ValueError(f"Wrong file name: {path}")
+
+    if not path.is_file():
+        raise ValueError("Le fichier spécifié n'existe pas")
+
+    if path.suffix.lower() not in supported_suffixes:
+        raise ValueError("Le format de fichier n'est pas supporté (CSV requis)")
+
+    # If an allowed base directory is specified, ensure the file is within it
+    if allowed_base_dir is not None:
+        allowed_base = Path(allowed_base_dir).resolve()
+        try:
+            path.relative_to(allowed_base)
+        except ValueError:
+            raise ValueError("Accès au fichier non autorisé")
+
+    return path
 
 
 def validate_separator(separator: str):
