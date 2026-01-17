@@ -1,0 +1,17 @@
+[server]
+# Enable XSRF protection
+enableXsrfProtection = true
+
+# Run on localhost only (not exposed to network)
+address = "localhost"
+
+# Maximum upload size in MB (limit to prevent abuse)
+maxUploadSize = 50
+
+[browser]
+# Don't gather usage stats
+gatherUsageStats = false
+
+[client]
+# Show error details only in development
+showErrorDetails = false

@@ -11,6 +11,11 @@ st.set_page_config(
     page_title="Statut des classes",
     page_icon="🏫",
     layout="wide",
+    menu_items={
+        'Get Help': "https://github.com/dad3zero/pyAPE/blob/master/README.md",
+        'Report a bug': "https://github.com/dad3zero/pyAPE/issues",
+        'About': "Application de gestion de contacts - Usage interne uniquement"
+    }
 )
 
 # Arguments passed from CLI via sys.argv
